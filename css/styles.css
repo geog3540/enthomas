@@ -1,0 +1,14 @@
+<style>
+p { 
+    background-color: red
+}
+
+h1 {
+    font-family: Verdana;
+    color: rebeccapurple;
+}
+
+a:hover{
+    color: green
+}
+</style>
