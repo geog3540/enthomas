@@ -8,7 +8,7 @@ h1 {
     color: rebeccapurple;
 }
 
-a:hover(
+a:hover{
     color: green
-)
+}
 </style>
