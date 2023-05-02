@@ -28,7 +28,7 @@
 		<div class="container container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#defaultNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-				<a class="navbar-brand" href="https://geog3540.github.io/enthomas/">Geog 3540</a>
+				<a class="navbar-brand" href="https://geo-social.com">Geog 3540</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="defaultNavbar1">
@@ -37,9 +37,9 @@
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="../shortbio.html">About</a></li>
-							<li><a href="../files/EricThomas-Resume-April23.pdf">Resume</a></li>
+							<li><a href="../files/koylu_cv_23.pdf">Resume</a></li>
 							<li class="divider"></li>
-							<li><a href="eric-n-thomas@uiowa.edu">Contact</a></li>
+							<li><a href="caglar-koylu@uiowa.edu">Contact</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -53,12 +53,12 @@
 	<div class="container">
 		<div class="content">
 			<div class="row">
-					<h1>Cancer in Iowa</h1>
+					<h1>SNAP Benefits in Manhattan</h1>
 			</div>
 			<hr />
 			<div class="row">
 				<div class="col-sm-4">
-					<p>Data from <a href="https://www.openstreetmap.org/">openstreetmaps</a>, maps by Eric Thomas.</p>
+					<p>Data from <a href="data.iowa.gov">Data.Iowa.gov</a>, maps by Ryan Larson & Caglar Koylu.</p>
 				</div>
 				<div class='col-sm-8 mapButtons'>
 					<span class="pull-right">
@@ -82,12 +82,12 @@
 			<br />
 			<div class="row">
 				<div class="col-sm-6">
-					<span><p><h3 class='mapTitle'>Healthcare</h3>Availability of Hospitals and Healtcare Providers.</p></span>
+					<span><p><h3 class='mapTitle'>SNAP Benefits</h3>% households that receive Supplemental Nutrition Assistance Program (SNAP).</p></span>
 					<div id="divMap1"></div>
 					<div id="divHist1"></div>
 				</div>
 				<div class="col-sm-6">
-					<h3 class='mapTitle'>Services</h3><p>Availability of Services in Iowa City.</p>
+					<h3 class='mapTitle'>Kids</h3><p>% kids between 0 and 17 years old.</p>
 					<div id="divMap2"></div>
 					<div id="divHist2"></div>
 				</div>
@@ -95,20 +95,14 @@
 
 			<div class="row">
 				<div class="col-sm-6">
-					<h3 class='mapTitle'>Food</h3><p>Availability of Restraunts and Grocery Stores.</p>
+					<h3 class='mapTitle'>Senior Citizens</h3><p>% senior citizens 65+ years old.</p>
 					<div id="divMap3"></div>
 					<div id="divHist3"></div>
 				</div>
 				<div class="col-sm-6">
-					<h3 class='mapTitle'>Education</h3><p>Availibilty of primary, secondary, and tertiary schools.</p>
+					<h3 class='mapTitle'>Poverty Rate</h3><p>% population with income at or below the Federal poverty thresholds.</p>
 					<div id="divMap4"></div>
 					<div id="divHist4"></div>
-				</div>
-				<div class="col-sm-6">
-					<h3 class='mapTitle'>Entertainment</h3><p>Availability of music venues, bars, and theaters</p>
-					<div id="divMap5"></div>
-					<div id="divHist5"></div>
-				</div>
 				</div>
 			</div>
 		</div>
@@ -122,10 +116,10 @@
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// TODO: Change the variables below to customize the small multiples interface for your data
-	var polygonJSONFile = 'data/IowaCityGeoJSON.json'
+	var polygonJSONFile = 'data/manhattan.json'
 	// change the projection if needed *d3.geoAlbers()*
-	var projection = d3.geoAlbers();
-	var widthheightRatio = 0.4;
+	var projection = d3.geoTransverseMercator();
+	var widthheightRatio = 0.8;
 	// Relative placement of legend that ranges between 0 and 1.
 	// 0 is the start, whereas 1 i the end of each panel.
 	// If you want to put the legend on the left, then use 0.
@@ -133,10 +127,10 @@
 	var legendX = 0.84, legendY = 0.5
 
 	// id attribute and the name attribute to be used in the tooltip
-	var idAttribute = 'GEOID20', nameAttribute = 'GEOID20';
+	var idAttribute = 'GEOID', nameAttribute = 'GEOID';
 
 	// Find the abbreviations of color names from https://colorbrewer2.org/
-	var colors =  colorbrewer.YlOrBr;
+	var colors =  colorbrewer.YlGnBu;
 
 	// Chart/map attributes (variables) and formats based on the divs defined above
 	// For attribute 1 (the same for all others), see the description of the parameters below.
@@ -145,23 +139,22 @@
 	// att1format: enter the d3.format string to display the variables in the format you like
 	// Check this link on how to specify the desired format:
 	// https://observablehq.com/@d3/d3-format
-	var att1 = 'BlockMeanCollective_HEALTH', att1alias = 'Healtcare Facility Availability', att1format = '.3f',
-	att2 = 'BlockMeanCollective_SERVICES', att2alias =  'Availability of Services', att2format = '.3f',
-	att3 = 'BlockMeanCollective_EDUCATION', att3alias = 'Education Availability', att3format = '.3f',
-	att4 = 'BlockMeanCollective_ENTERTAINMENT', att4alias = 'Entertainment Availability', att4format = '.3f'
-	att5 = 'BlockMeanCollective_FOOD', att5alias = 'Food Availability', att5format = '.3f';
+	var att1 = 'food_accessibility_2015_TractSNAP', att1alias = '% SNAP Benefits', att1format = '.0f',
+	att2 = 'food_accessibility_2015_TractKids', att2alias =  '% Kids 0-17', att2format = '.0f',
+	att3 = 'food_accessibility_2015_TractSeniors', att3alias = '% Seniors 65+', att3format = '.0f',
+	att4 = 'food_accessibility_2015_PovertyRate', att4alias = 'Poverty Rate', att4format = '.0f';
 
   // enter below all variables that should be normalized. If you would like to multiple the variables
 	// with a constant value enter them in multiplyBy array. If there is no need for multiplication,
 	// simply enter 1 for each value in multiplyBy.
-//  var attributesToBeNormalized = [att1, att4];
-//	var multiplyBy = [10000, 100];
-//	var divideBy = ['Population', 'Population'];
+  var attributesToBeNormalized = [att1, att2, att3];
+	var multiplyBy = [100, 100, 100];
+	var divideBy = ['food_accessibility_2015_OHU2010', 'food_accessibility_2015_POP2010', 'food_accessibility_2015_POP2010'];
 	// if your variables are not raw counts and they are already normalized, comment out above, and
 	//uncomment below:
- var attributesToBeNormalized = [];
- var multiplyBy = [];
- var divideBy = [];
+	// var attributesToBeNormalized = [];
+	// var multiplyBy = [];
+	// var divideBy = [];
 
 	//DO NOT CHANGE ANYTHING BELOW THIS POINT UNLESS YOU KNOW WHAT YOU ARE DOING
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,7 +174,7 @@
 	var margin = {top: 10, right: 20, bottom: 10, left:20},
 	width = chartWidth - margin.right - margin.left,
 	height = chartHeight - margin.top - margin.bottom,
-	histHeight = (chartHeight * .25);
+	histHeight = (chartWidth * .1);
 
 	// Save scales as global scale variables
 	//TODO: fix the classifications
@@ -203,13 +196,11 @@
 		'var': att3, 'ax': att3alias},
 		{'map': '#divMap4', 'hist': '#divHist4', 'form': att4format,
 		'var': att4, 'ax': att4alias}],
-		{'map': '#divMap5', 'hist': '#divHist5', 'form': att5format,
-		'var': att5, 'ax': att5alias}]
 		buttons = [
 			{'btn': '#quantileButton', 'scale': quantile_scale},
 			{'btn': '#eqIntButton', 'scale': equal_interval_scale},
 			{'btn': '#ckmButton', 'scale': jenks_scale},
-			{'btn': '#linearButton', 'scale': linear_scale}
+			//{'btn': '#linearButton', 'scale': linear_scale}
 		];
 
 		var bins = d3.histogram()
@@ -246,7 +237,7 @@
 			var polygons = data;
 			var proj = d3.geoPath().pointRadius(2);
 			// TODO: change the projection details here below - including specific parameters such as rotation, extent, etc.
-			proj.projection(projection.fitSize([width, height], polygons));
+			proj.projection(projection.rotate([76 + 35 / 60, - 40]).fitSize([width, height], polygons));
 
 			////////////////////////////////////////////////////
 			// Normalize based multiplyby and divideby values
@@ -353,6 +344,7 @@
 						var map = panel.selectAll('.path')
 						.data(polygons.features)
 						.enter().append('g');
+
 						map.append('path')
 						.attr("class", function(e) { return classPolygon(e, d.map); })
 						.on('mouseover', function(e) { return mouseOver2(e, dependent); })
@@ -371,13 +363,12 @@
 						panel.select('.legendQuant').call(holdLegend.scale(current_scale));
 
 						// add north arrow
-						// panel
-						// .append('path')
-						// .attr('id', 'arrow')
-						// .attr("d", "M 6 0 12 12 6 9 0 12")
-						// .attr('fill', "black")
-						// .attr("transform", "translate(" + margin.left + "," + margin.top + ") rotate("+ 0 +")");
-
+            panel
+						.append('path')
+						.attr('id', 'arrow')
+						.attr("d", "M 6 0 12 12 6 9 0 12")
+						.attr('fill', "black")
+						.attr("transform", "translate(" + margin.left + "," + margin.top + ") rotate("+ 0 +")");
 					}); // end for each
 				});
 
