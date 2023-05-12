@@ -124,7 +124,7 @@
 	var polygonJSONFile = 'data/mygeodata.geojson'
 	// change the projection if needed *d3.geoAlbers()*
 	var projection = d3.geoAlbers();
-	var widthheightRatio = 0.4;
+	var widthheightRatio = 1;
 	// Relative placement of legend that ranges between 0 and 1.
 	// 0 is the start, whereas 1 i the end of each panel.
 	// If you want to put the legend on the left, then use 0.
@@ -177,7 +177,7 @@
 	var chartWidth = d3.select('#divMap1')
 	.node().getBoundingClientRect().width,
 	chartHeight = chartWidth * widthheightRatio;
-	var margin = {top: 10, right: 20, bottom: 10, left:20},
+	var margin = {top: 5, right: 20, bottom: 5, left:20},
 	width = chartWidth - margin.right - margin.left,
 	height = chartHeight - margin.top - margin.bottom,
 	histHeight = (chartHeight * .25);
@@ -295,7 +295,7 @@
 				// Draw histogram
 				var hist = d3.select(d.hist).append("svg")
 				.attr("width", width + margin.left + margin.right)
-				.attr("height", histHeight + margin.top + margin.bottom + 30)
+				.attr("height", histHeight + margin.top + margin.bottom + 20)
 				.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 				var bar = hist.selectAll('.bar')
